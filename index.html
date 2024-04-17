@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+    <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Currículum Vitae</title>
+    <link href="reset.css" rel="stylesheet" type="text/css" />
+    <link href="styles.css" rel="stylesheet" type="text/css" />
+    <script src="https://kit.fontawesome.com/f90b906b94.js" crossorigin="anonymous"></script>
+  </head>
+
+  <body>
+    <header>
+      <div>
+        <h1>Formulario a CV</h1>
+      </div>
+      
+    </header>
+    <main>
+      <form action="datos.php" method="post" enctype="multipart/form-data">
+        <div class="contenedor">
+        
+          <h2>Información personal</h2>
+            <label for="nombre_apellidos" class="campo">Nombre y Apellidos</label>
+            <input type="text" id="nombre_apellidos" name="nombre_apellidos" required><br>
+
+            <label for="fecha_nacimiento" class="campo">Fecha de Nacimiento</label>
+            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required><br>
+
+            <label for="ocupacion" class="campo">Ocupación</label>
+            <div id="ocupacion-container">
+                <input type="text" name="ocupacion[]" required><br>
+            </div>
+            <button onclick="agregarOcupacion()">Agregar Ocupación</button>
+            
+            <script>
+                function agregarOcupacion() {
+                    var container = document.getElementById("ocupacion-container");
+                    var nuevoInput = document.createElement("input");
+                    nuevoInput.type = "text";
+                    nuevoInput.name = "ocupacion[]"; // Agregamos corchetes para enviarlo como array
+                    nuevoInput.required = true;
+                    container.appendChild(nuevoInput);
+                    container.appendChild(document.createElement("br"));
+                }
+            </script>
+
+
+            <label for="nacionalidad" class="campo">Nacionalidad</label>
+            <select id="nacionalidad" name="nacionalidad" required>
+                <option value="">Seleccione...</option>
+                <option value="Perú">Perú</option>
+                <option value="México">México</option>
+                <option value="Argentina">Argentina</option>
+            </select><br>
+        </div>
+        <div class="contenedor">
+          <h2>Contacto</h2>
+            <label for="contacto" class="campo">Email</label>
+            <input type="email" id="email" name="email" required><br>
+            <label for="contacto" class="campo">Teléfono</label>
+            <input type="tel" id="telefono" name="telefono" required><br>
+
+            
+        </div>
+        <div class="contenedor">
+          <h2>Habilidades y Aptitudes</h2>
+            <label>Nivel de inglés</label><br>
+            <input type="radio" id="basico" name="nivel_ingles" value="Basico" required>
+            <label for="basico">Básico</label><br>
+            <input type="radio" id="intermedio" name="nivel_ingles" value="Intermedio">
+            <label for="intermedio">Intermedio</label><br>
+            <input type="radio" id="avanzado" name="nivel_ingles" value="Avanzado">
+            <label for="avanzado">Avanzado</label><br>
+            <input type="radio" id="fluido" name="nivel_ingles" value="Fluido">
+            <label for="fluido">Fluido</label><br>
+
+            <label for="lenguajes_programacion" class="campo">Lenguajes de programación</label>
+            <select id="lenguajes_programacion" name="lenguajes_programacion[]" multiple>
+                <option value="C++">C++</option>
+                <option value="Python">Python</option>
+                <option value="JavaScript">JavaScript</option>
+            </select><br>
+
+            <label for="aptitudes" class="campo">Aptitudes</label>
+            <input list="aptitudes" name="aptitudes" id="aptitudes" required>
+            <datalist id="lista-aptitudes">
+                <option value="Trabajo en equipo"></option>
+                <option value="Resolución de problemas"></option>
+                <option value="Creatividad"></option>
+            </datalist>
+
+
+          <label for="habilidades">Habilidades</label><br>
+          <div id="habilidades-container">
+              <input type="checkbox" id="comunicacion_efectiva" name="habilidades[]" value="Comunicación efectiva">
+              <label for="comunicacion_efectiva">Comunicación efectiva</label><br>
+              <input type="checkbox" id="resolucion_de_problemas" name="habilidades[]" value="Resolución de problemas">
+              <label for="resolucion_de_problemas">Resolución de problemas</label><br>
+              <input type="checkbox" id="liderazgo" name="habilidades[]" value="Liderazgo">
+              <label for="liderazgo">Liderazgo</label><br>
+          </div>
+
+          <button onclick="agregarHabilidad()">Agregar Habilidad</button>
+
+          <script>
+          function agregarHabilidad() {
+              var container = document.getElementById("habilidades-container");
+              var nuevaHabilidad = prompt("Ingrese la nueva habilidad:");
+              if (nuevaHabilidad) {
+                  var checkbox = document.createElement("input");
+                  checkbox.type = "checkbox";
+                  checkbox.name = "habilidades[]";
+                  checkbox.value = nuevaHabilidad;
+                  var label = document.createElement("label");
+                  label.textContent = nuevaHabilidad;
+                  container.appendChild(checkbox);
+                  container.appendChild(label);
+                  container.appendChild(document.createElement("br"));
+              }
+          }
+          </script>
+
+          </div>
+          <div class="contenedor">
+            <h2>Perfil</h2>
+            <label for="perfil">Perfil</label><br>
+            <textarea id="perfil" name="perfil" rows="4" cols="50" required></textarea><br>
+
+            <input type="submit" value="Enviar">
+          </div>
+        </form>
+        
+      
+    </main>
+  </body>
+</html>
