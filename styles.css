@@ -17,17 +17,27 @@ body {
 }
 
 header {
-  display: block;
   border-radius: 0.75rem;
   background-color: #585858;
   font-family: "Nunito";
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-content: center;
+  color: white;
+  transition: none;
+  font-size: 4em;
+  font-weight: 300;
+  padding: 0.5em;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .campo {
   border: none;
   color: rgb(75, 85, 99);
   display: block;
-  font: 400 14px;
+  font: 400 0.875em;
   margin: 0 0 0 0;
 }
 
@@ -45,20 +55,6 @@ main {
   display: flex;
 }
 
-header {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  justify-content: center;
-  align-content: center;
-  color: white;
-  transition: none;
-  font-size: 4em;
-  font-weight: 300;
-  padding: 0.5em;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
 main {
   display: block;
 }
@@ -70,7 +66,7 @@ input:not([type=radio]):not([type="checkbox"]):not([type="submit"]){
   box-sizing: border-box;
   height: 2em;
   width: 100%;
-  font: 400 14px;
+  font: 400 0.875em;
   padding: 12px;
   color: rgb(32, 36, 47);
   text-align: start;
@@ -85,17 +81,27 @@ input[type="radio"] {
     cursor: pointer;
 }
 
-input[type="submit"] {
+#submitBtn {
   display: block;
   padding: 0.5em 1em;
   border-radius: 5px;
-  font-size: 0.875rem;
+  font-size: 0.875em;
   background: #10b981;
   color: #fff;
   font-weight: 500;
   user-select: none;
   cursor: pointer;
   border: none;
+}
+
+#submitBtn:hover {
+  background-color: #095e42;
+}
+
+#submitBtn:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
 }
 
 textarea {
@@ -105,7 +111,7 @@ textarea {
   box-sizing: border-box;
   height: 8em;
   width: 100%;
-  font: 400 14px;
+  font: 400 0.875em;
   padding: 12px;
   color: rgb(32, 36, 47);
   cursor: text;
@@ -121,12 +127,12 @@ select {
   border: 1px solid rgb(192, 196, 201);
   width: 100%;
   max-width: 300px;
-  font-size: 16px;
+  font-size: 1em;
   line-height: 1.5;
 }
 
 option {
-  font-size: 16px;
+  font-size: 1em;
 }
 
 .contenedor {
@@ -137,7 +143,7 @@ option {
   overflow: hidden;
   margin: 2rem 0;
   position: relative;
-  font-size: 1rem;
+  font-size: 1em;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
@@ -147,6 +153,36 @@ button {
   color: white;
   border-radius: 5px;
   display:block;
+  font-size: 0.875em;
   padding: 0.5em 1em;
   border: none;
+}
+
+button:hover {
+  background-color: #26308d;
+  cursor: pointer;
+}
+
+@media (max-width: 580px){
+  html {
+    font-size: small;
+  }
+}
+
+@media (max-width: 462px){
+  html {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 430px){
+  html {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 360px){
+  html {
+    font-size: 8px;
+  }
 }

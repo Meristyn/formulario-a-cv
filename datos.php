@@ -1,54 +1,69 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Procesamiento de Datos</title>
-</head>
-<body>
-
 <?php
+$server = "localhost";
+$user = "root";
+$pass = "";
+$db = "data_base";
+$conexion = mysqli_connect($server, $user, $pass, $db);
+
+if ($conexion->connect_error) {
+    die("Conexión fallida: " . $conexion->connect_error);
+} else {
+    echo "Base de datos conectada correctamente";
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Recibimos los datos del formulario
     $nombre_apellidos = $_POST['nombre_apellidos'];
     $fecha_nacimiento = $_POST['fecha_nacimiento'];
-    $ocupaciones = $_POST['ocupacion'];
     $nacionalidad = $_POST['nacionalidad'];
     $email = $_POST['email'];
     $telefono = $_POST['telefono'];
-    $nivel_ingles = $_POST['nivel_ingles'];
-    $lenguajes_programacion = isset($_POST['lenguajes_programacion']) ? $_POST['lenguajes_programacion'] : [];
-    $aptitudes = $_POST['aptitudes'];
-    $habilidades = isset($_POST['habilidades']) ? $_POST['habilidades'] : [];
+    $ocupaciones = implode('; ', $_POST['ocupaciones']);
+    $idiomas = implode('; ', $_POST['idiomas']);
+    $lenguajes_programacion = implode('; ', $_POST['lenguajes_programacion']);
+    $aptitudes = implode('; ', $_POST['aptitudes']);
+    $habilidades = implode('; ', $_POST['habilidades']);
     $perfil = $_POST['perfil'];
 
-    echo "<h2>Información recibida:</h2>";
-    echo "<p>Nombre y Apellidos: $nombre_apellidos</p>";
-    echo "<p>Fecha de Nacimiento: $fecha_nacimiento</p>";
-    echo "<p>Ocupaciones:</p><ul>";
-    foreach ($ocupaciones as $ocupacion) {
-        echo "<li>$ocupacion</li>";
+    // Insertar datos personales en la tabla 'datos_registrados'
+    $insertardatos = "INSERT INTO datos_registrados (nombre_apellidos, fecha_nacimiento, nacionalidad, email, telefono, ocupaciones, idiomas, lenguajes_programacion, aptitudes, habilidades, perfil)
+                      VALUES ('$nombre_apellidos', '$fecha_nacimiento', '$nacionalidad', '$email', '$telefono', '$ocupaciones', '$idiomas', '$lenguajes_programacion', '$aptitudes', '$habilidades', '$perfil')";
+
+    if (mysqli_query($conexion, $insertardatos)) {
+        echo "<p>Los datos personales se insertaron correctamente.</p>";
+    } else {
+        echo "<p>Error al insertar datos personales: " . mysqli_error($conexion) . "</p>";
     }
-    echo "</ul>";
-    echo "<p>Nacionalidad: $nacionalidad</p>";
-    echo "<p>Email: $email</p>";
-    echo "<p>Teléfono: $telefono</p>";
-    echo "<p>Nivel de inglés: $nivel_ingles</p>";
-    echo "<p>Lenguajes de programación:</p><ul>";
-    foreach ($lenguajes_programacion as $lenguaje) {
-        echo "<li>$lenguaje</li>";
+
+    // Obtener el ID del usuario recién insertado
+    $usuario_id = mysqli_insert_id($conexion);
+
+    foreach ($_POST['idiomas'] as $key => $idioma) {
+        $nivel_idioma = $_POST['nivel_idioma_' . $key][0];
+    
+        $insertar_idioma = "INSERT INTO idiomas (datos_registrados_id, idioma, nivel)
+                            VALUES ('$usuario_id', '$idioma', '$nivel_idioma')";
+        
+        if (!mysqli_query($conexion, $insertar_idioma)) {
+            echo "<p>Error al insertar idioma $idioma: " . mysqli_error($conexion) . "</p>";
+        }
     }
-    echo "</ul>";
-    echo "<p>Aptitudes: $aptitudes</p>";
-    echo "<p>Habilidades:</p><ul>";
-    foreach ($habilidades as $habilidad) {
-        echo "<li>$habilidad</li>";
+
+    // Insertar experiencia laboral en la tabla 'experiencia_laboral'
+    foreach ($_POST['nombre_empresa'] as $key => $empresa) {
+        $puesto = $_POST['puesto'][$key];
+        $fecha_inicio = $_POST['fecha_inicio'][$key];
+        $fecha_fin = $_POST['fecha_fin'][$key];
+        $descripcion = $_POST['descripcion'][$key];
+
+        $insertar_experiencia = "INSERT INTO experiencia_laboral (datos_registrados_id, nombre_empresa, puesto, fecha_inicio, fecha_fin, descripcion)
+                                 VALUES ('$usuario_id', '$empresa', '$puesto', '$fecha_inicio', '$fecha_fin', '$descripcion')";
+
+        if (!mysqli_query($conexion, $insertar_experiencia)) {
+            echo "<p>Error al insertar experiencia laboral para $empresa: " . mysqli_error($conexion) . "</p>";
+        }
     }
-    echo "</ul>";
-    echo "<p>Perfil: $perfil</p>";
+    mysqli_close($conexion);
 } else {
     echo "<h2>Error</h2>";
     echo "<p>No se han recibido datos del formulario.</p>";
 }
-?>
-
-</body>
-</html>
